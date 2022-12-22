@@ -15,7 +15,7 @@
                         {{ field.label_tag }}
                         <p>{{ field }}</p>
                         {% endfor %}
-                        <a href="">Forgot Password ?</a>
+                        <a href="{% url 'password_reset' %}">Forgot Password ?</a><br>
                         <button type="submit" class="btn btn-default">Login</button>
                         <a href="{% url 'signup' %}"><span style="margin-left: 80px;">New User ?   </span> <span style="color: black;">&#x2190  Here</span></a>
                     </form>

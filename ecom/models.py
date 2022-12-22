@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
+from django.utils.html import mark_safe
 # Create your models here.
 
 class Category(models.Model):
@@ -17,6 +18,10 @@ class Sub_Category(models.Model):
     def __str__(self):
         return self.name
 
+    @staticmethod
+    def get_products_by_id(ids):
+        return Product.objects.filter(id__in = ids)
+
 class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE , null= False, default='')
     sub_category = models.ForeignKey(Sub_Category, on_delete=models.CASCADE, null= False, default='')
@@ -24,7 +29,7 @@ class Product(models.Model):
     name = models.CharField(max_length=100)
     price = models.IntegerField()
     date = models.DateField(auto_now_add=True)
-
+    
     def __str__(self):
         return self.name
 
@@ -67,3 +72,12 @@ class UserCreateForm(UserCreationForm):
             return username
         raise forms.ValidationError("Username's already taken.")
 
+
+class Contact_us(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField(max_length=100)
+    subject = models.CharField(max_length=100)
+    message = models.TextField()
+
+    def __str__(self):
+            return self.name+''+self.email
