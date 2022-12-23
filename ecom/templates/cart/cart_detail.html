@@ -72,6 +72,8 @@
                             <h4>{{cart_total_amount}}₹</h4>    
                         </td>
                         <td >
+                            <hr>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Checkout</button>
                         </td>
                     </tr>
                     </tfoot>
@@ -80,5 +82,34 @@
         </div>
     </section> <!--/#cart_items-->
     
+<!-- code for bootstrap modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Checkout</h5>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="/checkout/">
+          <div class="form-group">
+            <label  class="col-form-label">Phone:</label>
+            <input type="text" class="form-control" name="phone">
+          </div>
+          <div class="form-group">
+              <label class="col-form-label">Address:</label>
+              <textarea class="form-control" name="address"></textarea>
+            </div>
+            <div class="form-group">
+              <label  class="col-form-label">Pincode:</label>
+              <input type="text" class="form-control"  name="pincode">
+            </div>
+            <div class="modal-footer"> 
+              <button type="submit" class="btn btn-primary">Checkout</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock  %}
