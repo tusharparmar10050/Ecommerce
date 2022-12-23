@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
 from django.utils.html import mark_safe
+import datetime
 # Create your models here.
 
 class Category(models.Model):
@@ -81,3 +82,17 @@ class Contact_us(models.Model):
 
     def __str__(self):
             return self.name+''+self.email
+
+
+class Order(models.Model):
+    image = models.ImageField(upload_to='mycom/oimg')
+    product = models.CharField(max_length=1000, default='')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    quantity = models.CharField(max_length=5)
+    price = models.IntegerField()
+    address = models.TextField()
+    phone = models.CharField(max_length=10)
+    pincode = models.CharField(max_length=10)
+    total = models.CharField(max_length=1000, default='')
+    date = models.DateField(default=datetime.datetime.today)
+    

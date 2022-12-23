@@ -1,5 +1,5 @@
-from django.shortcuts import render,redirect
-from .models import Category,Sub_Category,Product,Contact_us
+from django.shortcuts import render,redirect,HttpResponse
+from .models import Category,Sub_Category,Product,Contact_us,Order
 
 from django.contrib.auth import authenticate,login
 from ecom.models import UserCreateForm
@@ -8,6 +8,7 @@ from ecom.models import UserCreateForm
 from django.contrib.auth.decorators import login_required
 from cart.cart import Cart
 
+from django.contrib.auth.models import User
 
 # Create your views here.
 def home(request):
@@ -103,3 +104,34 @@ def Contact_Us(request):
         contact.save()
         
     return render(request, 'contact.html')
+
+
+def CheckOut(request):
+    if request.method== "POST":
+        phone = request.POST.get('phone')
+        address = request.POST.get('address')
+        pincode = request.POST.get('pincode')
+        cart = request.session.get('cart')
+        uid = request.session.get('_auth_user_id')
+        user = User.objects.get(pk = uid)        
+        
+        for i in cart:
+            a = int(cart[i]['price'])
+            b = cart[i]['quantity']
+            total = a * b
+
+            order = Order(
+                user = user,
+                product = cart[i]['name'],
+                price = cart[i]['price'],
+                quantity = cart[i]['quantity'],
+                image = cart[i]['image'],
+                address = address,
+                phone = phone,
+                pincode = pincode,
+                total = total,
+                )
+            order.save()
+        request.session['cart'] = {}
+        return redirect('home')
+    return HttpResponse("Chackout page is here")
