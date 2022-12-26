@@ -19,5 +19,13 @@ urlpatterns = [
     path('cart/cart-detail/',views.cart_detail,name='cart_detail'),
 
     path('contact-us/', views.Contact_Us,name='contact-us'),
+    
+#     product page
+    path('product/', views.Product_page,name='product'),
+    path('product/<str:id>/', views.Product_Detail,name='product_detail'),
 
+    path('order/', views.Your_Order,name='order'),
+    
+#   search page
+    path('search/', views.Search,name='search'),
 ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

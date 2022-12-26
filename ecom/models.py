@@ -24,11 +24,14 @@ class Sub_Category(models.Model):
         return Product.objects.filter(id__in = ids)
 
 class Product(models.Model):
+    Availability = (('In Stock', 'In Stock'),('Out Of Stock', 'Out Of Stock'))
+
     category = models.ForeignKey(Category, on_delete=models.CASCADE , null= False, default='')
     sub_category = models.ForeignKey(Sub_Category, on_delete=models.CASCADE, null= False, default='')
     image = models.ImageField(upload_to='mycom/pimg')
     name = models.CharField(max_length=100)
     price = models.IntegerField()
+    Availability = models.CharField(choices=Availability, null=True, max_length=100)
     date = models.DateField(auto_now_add=True)
     
     def __str__(self):
