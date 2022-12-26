@@ -135,3 +135,48 @@ def CheckOut(request):
         request.session['cart'] = {}
         return redirect('home')
     return HttpResponse("Chackout page is here")
+
+
+def Your_Order(request):
+    uid = request.session.get('_auth_user_id')
+    user = User.objects.get(pk = uid)
+    order = Order.objects.filter(user = user)
+    print(user, order)
+    context = {
+        'order':order,
+    }
+    return render(request,'order.html', context)
+
+
+def Product_page(request):
+    category = Category.objects.all()
+    
+    categoryID = request.GET.get('category')
+    if categoryID:
+        product = Product.objects.filter(sub_category = categoryID).order_by('-id')
+    else:
+        product = Product.objects.filter()
+
+    context = {
+        'categorys' : category,
+        'product' : product
+
+    }
+    return render(request,'product.html', context)
+
+
+def Product_Detail(request, id):
+    product= Product.objects.filter(id = id).first()
+    context = {
+        'product':product,
+    } 
+    return render(request,'product_detail.html', context)
+
+
+def Search(request):
+    query = request.GET[('query')]
+    product = Product.objects.filter(name__icontains = query)
+    context = {
+        'product':product,
+    }
+    return render(request, 'search.html',context)
